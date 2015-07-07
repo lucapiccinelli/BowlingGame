@@ -256,3 +256,7 @@ class BowlingGameTest:
         result = bg.play()
         assert_equal(LastFrame, type(result.frames[-1]))
         
+    def test_all_strikes_should_sum_up_to_300(self):
+        
+        result = BowlingGameResult([LastFrame(Roll(10), Roll(10)) if i == 10 else StrikeFrame() for i in range(1, 11)])
+        assert_equal(300, result.sums_up())

@@ -83,6 +83,8 @@ class LastFrame(object):
         self.roll_idx = 0
         
     def value(self, bowlingGameResult):
+        if self.roll1.value() == 10:
+            return self.roll1.value() + self.roll2.value() + self.roll2.value()
         return self.roll1.value() + self.roll2.value() + self.roll3.value()
 
     def give_me_your_roll(self, reset_frame):
@@ -131,7 +133,7 @@ class SpareFrame(object):
         
         roll = self.rolls[self.roll_idx]
         self.roll_idx = self.roll_idx + 1
-        return (roll, 0)
+        return (roll, self.roll_idx - 1)
     
     def __str__(self):
         return '|{0},{1}!|'.format(self.roll1.value(), self.roll2.value())
@@ -175,7 +177,7 @@ class BowlingGameResult():
                         
         return sum(map(f, self.frames))
     
-    def give_me_a_roll(self, reset_frame = False):
+    def give_me_a_roll(self, reset_frame = True):
         roll, roll_idx_add = self.frames[self.frame_idx + self.roll_idx].give_me_your_roll(reset_frame)
         self.roll_idx = self.roll_idx + roll_idx_add
         
